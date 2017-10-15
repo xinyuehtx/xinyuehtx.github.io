@@ -6,10 +6,10 @@ logo: /foo/static/img/avatar.png
 github: https://github.com/lindexi
 about: Windows 10 Developer
 
-baseurl: "/foo"
+baseurl: "/weibo"
 url: "https://lindexi.gitee.io"
 
-allowsearch: true
+allowsearch: trues
 
 analytics:
   google: UA-108101550-1

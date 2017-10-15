@@ -1,23 +1,23 @@
-title: lindexi
+title: haungtengxiao
 description: Windows 10 Developer
-author: lindexi
-post_author: 林德熙
+author: haungtengxiao
+post_author: 黄腾霄
 logo: /foo/static/img/avatar.png
-github: https://github.com/lindexi
+github: https://github.com/haungtengxiao
 about: Windows 10 Developer
 
 baseurl: "/weibo"
-url: "https://lindexi.gitee.io"
+url: "https://haungtengxiao.gitee.io"
 
 allowsearch: trues
 
 analytics:
   google: UA-108101550-1
 disqus:
-  name: lindexi
+  name: haungtengxiao
 
 share:
-  twitter_username: lindexi_gd
+  twitter_username: haungtengxiao_gd
 
 
 enableTags: true
@@ -42,12 +42,12 @@ defaults:
       type: "posts"
     values:
       layout: "post"
-      author: "林德熙"
+      author: "黄腾霄"
       permalink: "/post/:title.html"
   - scope:
       path: "_articles"
       type: "articles"
     values:
       layout: "post"
-      author: "林德熙"
+      author: "黄腾霄"
       permalink: "/article/:title.html"

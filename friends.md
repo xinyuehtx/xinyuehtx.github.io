@@ -1,12 +1,13 @@
 ---
 layout: page
-title: 朋友和收藏
+title: 友链
 permalink: /friends/
 ---
 
 - [IIP.Easi](https://iip-easi.github.io/)
 - [林德熙 - lindexi_gd](https://lindexi.gitee.io/)
 - [梁泰琪 - gandalfliang](http://gandalfliang.me/)
+- [吕毅 - walterlv](https://walterlv.github.io/)
 
 ---
 

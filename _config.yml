@@ -6,7 +6,7 @@ logo: /foo/static/img/avatar.png
 github: https://github.com/xinyuehtx
 about: Windows Developer
 
-baseurl: "/weibo"
+baseurl: ""
 url: "https://haungtengxiao.gitee.io"
 
 allowsearch: trues
@@ -17,7 +17,7 @@ disqus:
   name: haungtengxiao
 
 share:
-  twitter_username: haungtengxiao_gd
+  twitter_username: 
 
 
 enableTags: true

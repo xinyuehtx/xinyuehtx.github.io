@@ -1,8 +1,13 @@
 ---
-typora-copy-images-to: ..\_media
+layout: post
+title: "EventTrigger原理浅谈"
+date: 2017-10-02 00:14:07 +0800
+date_modified: 2017-10-02 09:00:45 +0800
+categories: win10 windows wpf
+tags: WPF Windows EventTrigger
+description: 
 ---
 
-#EventTrigger原理浅谈
 
 EventTrigger相信大家都会写，就和下面的东西一样样的。
 

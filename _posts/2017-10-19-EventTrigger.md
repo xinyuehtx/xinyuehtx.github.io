@@ -1,8 +1,8 @@
 ---
 layout: post
 title: "EventTrigger原理浅谈"
-date: 2017-10-02 00:14:07 +0800
-date_modified: 2017-10-02 09:00:45 +0800
+date: 2017-10-19 00:14:07 +0800
+date_modified: 2017-10-19 09:00:45 +0800
 categories: win10 windows wpf
 tags: WPF Windows EventTrigger
 description: 
@@ -30,7 +30,7 @@ EventTrigger相信大家都会写，就和下面的东西一样样的。
 
 那么我们打开referencesource，搜索一下Triggers，发现居然有4种！！
 
-![QQ截图20171019105123](F:\gitproject\blog\Foo\_media/QQ截图20171019105123.png)
+![QQ截图20171019105123](../_media/QQ截图20171019105123.png)
 
 这里我们仅研究FrameworkElement的Triggers。
 
@@ -79,7 +79,7 @@ internal sealed override void Invoke(FrameworkElement el)
 
 于是我们打开MSDN。。。
 
-![QQ截图20171019112756](F:\gitproject\blog\Foo\_media/QQ截图20171019112756.png)
+![QQ截图20171019112756](../_media/QQ截图20171019112756.png)
 
 什么鬼！只能做动画！根本不够用好吗?于是有这么一段对话（纯属虚构）
 
@@ -102,11 +102,11 @@ A：哇，从此可以通过`EventTrigger`发命令啦！另外有了`EventArgs`
 
 Blend：哦！除了第一个以外，剩下的我都没做。你自己实现咯
 
-P：![QQ图片20171019115655](F:\gitproject\blog\Foo\_media/QQ图片20171019115655.png)
+P：![QQ图片20171019115655](../_media/QQ图片20171019115655.png)
 
 Blend：骗你的，在`Microsoft.Expression.Interaction.dll`中实现了好多哦
 
-![QQ截图20171019115920](F:\gitproject\blog\Foo\_media/QQ截图20171019115920.png)
+![QQ截图20171019115920](../_media/QQ截图20171019115920.png)
 
 P：我要在`Command`中传`EventArgs`
 

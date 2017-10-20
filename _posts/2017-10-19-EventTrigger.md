@@ -11,7 +11,7 @@ description:
 
 EventTrigger相信大家都会写，就和下面的东西一样样的。
 
----
+-----
 
 
 ```xml

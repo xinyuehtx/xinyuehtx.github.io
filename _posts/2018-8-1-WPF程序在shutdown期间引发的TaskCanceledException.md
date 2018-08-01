@@ -13,12 +13,16 @@ description:
 ```csharp
 TaskCanceledException at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task) at 
 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task) at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task) at 
-System.Windows.Threading.DispatcherOperation.Wait(TimeSpan timeout) at System.Windows.Threading.Dispatcher.InvokeImpl(DispatcherOperation operation, CancellationToken cancellationToken, TimeSpan timeout) at 
-System.Windows.Threading.Dispatcher.Invoke(Action callback, DispatcherPriority priority, CancellationToken cancellationToken, TimeSpan timeout) at MS.Internal.WeakEventTable.OnShutDown() at 
+System.Windows.Threading.DispatcherOperation.Wait(TimeSpan timeout) at
+System.Windows.Threading.Dispatcher.InvokeImpl(DispatcherOperation operation, CancellationToken cancellationToken, TimeSpan timeout) at 
+System.Windows.Threading.Dispatcher.Invoke(Action callback, DispatcherPriority priority, CancellationToken cancellationToken, TimeSpan timeout) at
+MS.Internal.WeakEventTable.OnShutDown() at 
 MS.Internal.ShutDownListener.HandleShutDown(Object sender, EventArgs e) 
 ```
 
 -----
+
+
 
 ##背景
 
@@ -116,12 +120,15 @@ private void OnShutDown()
 
 参考链接：
 
-- https://stackoverflow.com/questions/50906813/taskcanceledexception-in-shutdownlistener
-- https://referencesource.microsoft.com/#WindowsBase/Base/MS/Internal/WeakEventTable.cs
-- https://developercommunity.visualstudio.com/content/problem/284294/taskcanceledexception-during-application-shutdown.html
-- https://support.microsoft.com/en-gb/help/4229726/description-of-preview-of-quality-rollup-for-net-framework-4-6-4-6-1-4
-- https://github.com/Microsoft/dotnet/blob/master/Documentation/compatibility/wpf-AppDomain-shutdown-handling-may-now-call-Dispatcher.Invoke-in-cleanup-of-WeakEvents.md
-- https://github.com/Microsoft/dotnet/blob/master/Documentation/compatibility/wpf-AppDomain-shutdown-handling-may-now-call-Dispatcher.Invoke-in-cleanup-of-WeakEvents.md
+- [c# - TaskCanceledException in ShutDownListener - Stack Overflow](https://stackoverflow.com/questions/50906813/taskcanceledexception-in-shutdownlistener)
 
+- [WeakEventTable.cs](https://referencesource.microsoft.com/#WindowsBase/Base/MS/Internal/WeakEventTable.cs)
 
+- [TaskCanceledException during application shutdown - Developer Community](https://developercommunity.visualstudio.com/content/problem/284294/taskcanceledexception-during-application-shutdown.html)
+
+- [Description of Preview of Quality Rollup for .NET Framework 4.6, 4.6.1, 4.6.2, 4.7, and 4.7.1 for Windows Server 2012 (KB 4229726)](https://support.microsoft.com/en-gb/help/4229726/description-of-preview-of-quality-rollup-for-net-framework-4-6-4-6-1-4)
+
+- [dotnet/wpf-AppDomain-shutdown-handling-may-now-call-Dispatcher.Invoke-in-cleanup-of-WeakEvents.md at master · Microsoft/dotnet](https://github.com/Microsoft/dotnet/blob/master/Documentation/compatibility/wpf-AppDomain-shutdown-handling-may-now-call-Dispatcher.Invoke-in-cleanup-of-WeakEvents.md)
+
+  
 

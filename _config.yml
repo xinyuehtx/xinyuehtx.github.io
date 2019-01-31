@@ -1,6 +1,6 @@
-title: haungtengxiao
+title: huangtengxiao
 description: Windows Developer
-author: haungtengxiao
+author: huangtengxiao
 post_author: 黄腾霄
 logo: /static/img/avatar.png
 github: https://github.com/xinyuehtx
@@ -14,7 +14,7 @@ allowsearch: trues
 analytics:
   google: 
 disqus:
-  name: haungtengxiao
+  name: huangtengxiao
 
 share:
   twitter_username: 

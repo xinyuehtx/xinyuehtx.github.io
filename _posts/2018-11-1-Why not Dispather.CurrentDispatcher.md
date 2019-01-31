@@ -38,10 +38,10 @@ WPF程序启动后会有两个线程：UI线程和渲染线程。UI线程会将�
 
 参考链接：
 
-- [Threading Model | Microsoft Docs](https://docs.microsoft.com/en-us/dotnet/framework/wpf/advanced/threading-model#threading_overview)
-- [Dispatcher Class (System.Windows.Threading) | Microsoft Docs](https://docs.microsoft.com/en-us/dotnet/api/system.windows.threading.dispatcher?redirectedfrom=MSDN&view=netframework-4.7.2)
+- [Threading Model - Microsoft Docs](https://docs.microsoft.com/en-us/dotnet/framework/wpf/advanced/threading-model#threading_overview)
+- [Dispatcher Class (System.Windows.Threading) - Microsoft Docs](https://docs.microsoft.com/en-us/dotnet/api/system.windows.threading.dispatcher?redirectedfrom=MSDN&view=netframework-4.7.2)
 - [c# - WPF/threading: Dispatcher static vs Dispatcher on a control? - Stack Overflow](https://stackoverflow.com/questions/4620818/wpf-threading-dispatcher-static-vs-dispatcher-on-a-control)
-- [Application Class (System.Windows) | Microsoft Docs](https://docs.microsoft.com/en-us/dotnet/api/system.windows.application?view=netframework-4.7.2)
+- [Application Class (System.Windows) - Microsoft Docs](https://docs.microsoft.com/en-us/dotnet/api/system.windows.application?view=netframework-4.7.2)
 
 
 

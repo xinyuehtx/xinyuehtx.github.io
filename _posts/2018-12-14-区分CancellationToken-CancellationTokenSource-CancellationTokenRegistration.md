@@ -80,9 +80,9 @@ using (CancellationTokenRegistration ctr = token.Register(() => //do cancel))
 
 参考链接：
 
-- [CancellationTokenSource Class (System.Threading) | Microsoft Docs](https://docs.microsoft.com/en-us/dotnet/api/system.threading.cancellationtokensource?view=netframework-4.7.2)
-- [CancellationTokenRegistration Struct (System.Threading) | Microsoft Docs](https://docs.microsoft.com/en-us/dotnet/api/system.threading.cancellationtokenregistration?view=netframework-4.7.2)
-- [CancellationToken Struct (System.Threading) | Microsoft Docs](https://docs.microsoft.com/en-us/dotnet/api/system.threading.cancellationtoken?view=netframework-4.7.2)
+- [CancellationTokenSource Class (System.Threading) - Microsoft Docs](https://docs.microsoft.com/en-us/dotnet/api/system.threading.cancellationtokensource?view=netframework-4.7.2)
+- [CancellationTokenRegistration Struct (System.Threading) - Microsoft Docs](https://docs.microsoft.com/en-us/dotnet/api/system.threading.cancellationtokenregistration?view=netframework-4.7.2)
+- [CancellationToken Struct (System.Threading) - Microsoft Docs](https://docs.microsoft.com/en-us/dotnet/api/system.threading.cancellationtoken?view=netframework-4.7.2)
 
 
 

@@ -49,8 +49,8 @@ description:
 
 参考链接：
 
-- [The Virtual Screen | Microsoft Docs](https://docs.microsoft.com/en-us/windows/desktop/gdi/the-virtual-screen)
-- [SystemParameters Class (System.Windows) | Microsoft Docs](https://docs.microsoft.com/zh-cn/dotnet/api/system.windows.systemparameters?redirectedfrom=MSDN&view=netframework-4.7.2)
+- [The Virtual Screen - Microsoft Docs](https://docs.microsoft.com/en-us/windows/desktop/gdi/the-virtual-screen)
+- [SystemParameters Class (System.Windows) - Microsoft Docs](https://docs.microsoft.com/zh-cn/dotnet/api/system.windows.systemparameters?redirectedfrom=MSDN&view=netframework-4.7.2)
 
 
 

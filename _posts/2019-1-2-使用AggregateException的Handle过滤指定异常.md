@@ -44,7 +44,7 @@ description:
 
 参考链接：
 
-- [AggregateException.Handle(Func) Method (System) | Microsoft Docs](https://docs.microsoft.com/en-us/dotnet/api/system.aggregateexception.handle?view=netframework-4.7.2)
+- [AggregateException.Handle(Func) Method (System) - Microsoft Docs](https://docs.microsoft.com/en-us/dotnet/api/system.aggregateexception.handle?view=netframework-4.7.2)
 
 
 

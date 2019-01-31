@@ -63,7 +63,7 @@ public class Example
 
 参考链接：
 
-- [AggregateException.Flatten Method (System) | Microsoft Docs](https://docs.microsoft.com/en-us/dotnet/api/system.aggregateexception.flatten?view=netframework-4.7.2)
+- [AggregateException.Flatten Method (System) - Microsoft Docs](https://docs.microsoft.com/en-us/dotnet/api/system.aggregateexception.flatten?view=netframework-4.7.2)
 - 
 
 

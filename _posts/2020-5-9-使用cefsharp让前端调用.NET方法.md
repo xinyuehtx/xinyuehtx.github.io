@@ -3,8 +3,8 @@ layout: post
 title: "2020-5-9-使用cefsharp让前端调用.NET方法"
 date: 2020-5-9 19:40:39
 date_modified: 2020-5-9 19:40:52
-categories: 架构 设计模式
-tags: 架构 设计模式
+categories: C# .NET Cef JavaScript
+tags: C# .NET Cef JavaScript
 description:
 ---
 

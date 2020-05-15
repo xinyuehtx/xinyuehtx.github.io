@@ -8,7 +8,7 @@ tags: cef wpf C#
 description:
 ---
 
-今天遇到了一个在cefsharp中禁用浏览器默认邮件菜单的需求，mark一下。
+今天遇到了一个在cefsharp中禁用浏览器默认右键菜单的需求，mark一下。
 
 -----
 

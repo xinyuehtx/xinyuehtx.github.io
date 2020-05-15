@@ -10,6 +10,8 @@ description:
 
 今天遇到一个神奇的Directory问题，和大家介绍下。
 
+**毅仔同学也研究了这个问题** 更加详细，大家可以关注[.NET/Windows：删除文件夹后立即判断，有可能依然存在 - walterlv](https://blog.walterlv.com/post/file-or-directory-delete-is-not-completed-after-calling-delete.html)
+
 -----
 
 ## 问题描述
@@ -86,3 +88,4 @@ namespace ConsoleApp2
 -  [RemoveDirectory](https://referencesource.microsoft.com/#mscorlib/microsoft/win32/win32native.cs,d7268ec44fb9c3ac,references)
 -  [file.cs](https://referencesource.microsoft.com/#mscorlib/system/io/file.cs,56cd161c65ab07fe)
 -  [FindFirstFile](https://referencesource.microsoft.com/#mscorlib/microsoft/win32/win32native.cs,faee0f9f700fa6f3,references)
+-  [.NET/Windows：删除文件夹后立即判断，有可能依然存在 - walterlv](https://blog.walterlv.com/post/file-or-directory-delete-is-not-completed-after-calling-delete.html)

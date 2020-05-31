@@ -51,3 +51,5 @@ defaults:
       layout: "post"
       author: "黄腾霄"
       permalink: "/article/:title.html"
+
+theme: jekyll-theme-merlot

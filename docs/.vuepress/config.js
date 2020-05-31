@@ -1,4 +1,17 @@
+const themeConfig = require('./config/theme')
+
 module.exports = {
-    title: 'xinyuehtx\'s blog',
-    description: '欢迎来到黄腾霄的博客'
-  }
+  title: "黄腾霄的博客",
+  description: '持续输入，持续输出',
+  dest: 'public',
+  head: [
+    ['link', { rel: 'icon', href: '/favicon.ico' }],
+    ['meta', { name: 'viewport', content: 'width=device-width,initial-scale=1,user-scalable=no' }]
+  ],
+  theme: 'reco',
+  themeConfig,
+  markdown: {
+    lineNumbers: true
+  },
+  plugins: ['@vuepress/medium-zoom', 'flowchart'] 
+}  

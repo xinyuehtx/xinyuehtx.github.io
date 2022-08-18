@@ -90,5 +90,6 @@ console.log(man==='黄腾霄');
 -  [Difference between == and === Equal Operator in JavaScript - Java67](https://www.java67.com/2013/07/difference-between-equality-strict-vs-operator-in-JavaScript-Interview-Question.html)
 -  [Object.prototype.toString() - JavaScript - MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/toString)
 -  [JavaScript - toString( ) function - GeeksforGeeks](https://www.geeksforgeeks.org/javascript-tostring-function/)
+-  [JavaScript toString() - Scaler Topics](https://www.scaler.com/topics/tostring-in-javascript/)
 
 

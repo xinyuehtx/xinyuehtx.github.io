@@ -1,0 +1,726 @@
+/* =====================================================
+   Digital Meridian — 数字经络
+   科技 · 精密 · 光晕脉冲 · 柔和自然底色
+   ===================================================== */
+
+/* ----- 1. CSS 变量体系 ----- */
+
+:root {
+  /* 品牌色 — 深青绿 */
+  --vp-c-brand-1: #1a8a7d;
+  --vp-c-brand-2: #2db5a5;
+  --vp-c-brand-3: #147a6e;
+  --vp-c-brand-soft: rgba(26, 138, 125, 0.14);
+
+  /* Hero 渐变 */
+  --vp-home-hero-name-color: transparent;
+  --vp-home-hero-name-background: linear-gradient(
+    135deg,
+    #0d6b62 0%,
+    #1a8a7d 30%,
+    #2db5a5 60%,
+    #64d8c8 100%
+  );
+  --vp-home-hero-image-background-image: radial-gradient(
+    ellipse at 60% 50%,
+    rgba(45, 181, 165, 0.35) 0%,
+    rgba(26, 138, 125, 0.12) 50%,
+    transparent 100%
+  );
+  --vp-home-hero-image-filter: blur(72px);
+
+  /* 按钮 */
+  --vp-button-brand-bg: #1a8a7d;
+  --vp-button-brand-hover-bg: #2db5a5;
+  --vp-button-brand-active-bg: #147a6e;
+  --vp-button-brand-border: transparent;
+  --vp-button-brand-text: #fff;
+
+  /* 自定义扩展变量 */
+  --dm-font-heading: 'Outfit', system-ui, -apple-system, sans-serif;
+  --dm-font-body: 'Outfit', system-ui, -apple-system, 'PingFang SC',
+    'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+  --dm-font-code: 'JetBrains Mono', 'Fira Code', monospace;
+  --dm-bg-glass: rgba(255, 255, 255, 0.72);
+  --dm-border-glow: rgba(26, 138, 125, 0.15);
+  --dm-shadow-soft: 0 2px 20px rgba(26, 138, 125, 0.08);
+  --dm-shadow-hover: 0 8px 32px rgba(26, 138, 125, 0.18);
+  --dm-shadow-glow: 0 0 40px rgba(26, 138, 125, 0.12);
+  --dm-accent-amber: #d4a853;
+  --dm-grid-color: rgba(26, 138, 125, 0.06);
+
+  /* VitePress 背景覆盖 */
+  --vp-c-bg: #f8fafb;
+  --vp-c-bg-soft: #f0f4f5;
+  --vp-c-bg-alt: #e8eef0;
+}
+
+/* ----- 2. 暗色模式 ----- */
+
+.dark {
+  --vp-c-brand-1: #4dd9c8;
+  --vp-c-brand-2: #6eeadb;
+  --vp-c-brand-3: #38c4b4;
+  --vp-c-brand-soft: rgba(77, 217, 200, 0.14);
+
+  --vp-home-hero-name-background: linear-gradient(
+    135deg,
+    #38c4b4 0%,
+    #4dd9c8 30%,
+    #6eeadb 60%,
+    #d4a853 100%
+  );
+  --vp-home-hero-image-background-image: radial-gradient(
+    ellipse at 60% 50%,
+    rgba(77, 217, 200, 0.2) 0%,
+    rgba(77, 217, 200, 0.05) 50%,
+    transparent 100%
+  );
+
+  --vp-button-brand-bg: #4dd9c8;
+  --vp-button-brand-hover-bg: #6eeadb;
+  --vp-button-brand-active-bg: #38c4b4;
+  --vp-button-brand-text: #0e1419;
+
+  --dm-bg-glass: rgba(18, 24, 30, 0.78);
+  --dm-border-glow: rgba(77, 217, 200, 0.15);
+  --dm-shadow-soft: 0 2px 20px rgba(0, 0, 0, 0.25);
+  --dm-shadow-hover: 0 8px 32px rgba(77, 217, 200, 0.18);
+  --dm-shadow-glow: 0 0 40px rgba(77, 217, 200, 0.1);
+  --dm-grid-color: rgba(77, 217, 200, 0.04);
+
+  --vp-c-bg: #0e1419;
+  --vp-c-bg-soft: #161d24;
+  --vp-c-bg-alt: #121920;
+}
+
+/* ----- 3. 全局字体与排版 ----- */
+
+:root {
+  --vp-font-family-base: var(--dm-font-body);
+  --vp-font-family-mono: var(--dm-font-code);
+}
+
+.vp-doc h1,
+.vp-doc h2,
+.vp-doc h3,
+.vp-doc h4,
+.vp-doc h5,
+.vp-doc h6,
+.VPNavBarTitle .title,
+.VPNav .VPNavBarMenu a,
+.VPNavBarMenuLink,
+.VPNavBarMenuGroup .button span.text,
+.VPHero .name,
+.VPHero .text,
+.VPHero .tagline,
+.VPFeature .title {
+  font-family: var(--dm-font-heading) !important;
+  letter-spacing: -0.01em;
+}
+
+.vp-doc {
+  line-height: 1.8;
+}
+
+.vp-doc p {
+  margin: 1.2em 0;
+}
+
+/* ----- 4. 导航栏 — 玻璃态 ----- */
+
+.VPNav {
+  background-color: var(--dm-bg-glass) !important;
+  background-image: none !important;
+  background-clip: unset !important;
+  background-origin: unset !important;
+  border-bottom: 1px solid var(--dm-border-glow) !important;
+  backdrop-filter: blur(20px) saturate(1.4);
+  -webkit-backdrop-filter: blur(20px) saturate(1.4);
+  z-index: 100 !important;
+}
+
+.dark .VPNav {
+  background-image: none !important;
+}
+
+.VPNavBar,
+.VPNavBar *,
+.VPNavBarTitle,
+.VPNavBarTitle .title,
+.VPNavBarMenu,
+.VPNavBarMenu a,
+.VPNavBarMenuLink,
+.VPNavBarMenuGroup .button span.text {
+  font-family: var(--dm-font-heading) !important;
+}
+
+.VPNavBarTitle .logo {
+  height: 28px;
+  width: auto;
+  border-radius: 50%;
+  transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.VPNavBarTitle .logo:hover {
+  transform: scale(1.1);
+  filter: drop-shadow(0 0 8px rgba(26, 138, 125, 0.4));
+}
+
+.VPNav .VPNavBarMenu a {
+  position: relative;
+  font-weight: 500;
+  transition: color 0.25s ease;
+}
+
+.VPNav .VPNavBarMenu a::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #1a8a7d, #64d8c8);
+  border-radius: 1px;
+  transition: width 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+    left 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  box-shadow: 0 0 8px rgba(26, 138, 125, 0.3);
+}
+
+.VPNav .VPNavBarMenu a:hover::after,
+.VPNav .VPNavBarMenu a.active::after {
+  width: 60%;
+  left: 20%;
+}
+
+.dark .VPNav .VPNavBarMenu a::after {
+  background: linear-gradient(90deg, #4dd9c8, #6eeadb);
+  box-shadow: 0 0 8px rgba(77, 217, 200, 0.3);
+}
+
+/* 导航栏社交链接和主题切换始终显示 */
+.VPNavBarExtra {
+  display: none !important;
+}
+
+.VPNavBarSocialLinks,
+.VPNavBarAppearance {
+  display: flex !important;
+}
+
+/* ----- 5. 首页 Hero — 科技光晕 ----- */
+
+.VPHero .name {
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  text-shadow: 0 0 60px rgba(26, 138, 125, 0.15);
+}
+
+.VPHero .text {
+  font-weight: 300;
+  letter-spacing: 0.04em;
+  opacity: 0.88;
+}
+
+.VPHero .tagline {
+  font-weight: 400;
+  opacity: 0.72;
+  letter-spacing: 0.02em;
+}
+
+.VPHero .actions .VPButton {
+  border-radius: 999px;
+  padding: 0 28px;
+  font-family: var(--dm-font-heading) !important;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  transition: all 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.VPHero .actions .VPButton.brand {
+  box-shadow: 0 0 0 0 rgba(26, 138, 125, 0);
+}
+
+.VPHero .actions .VPButton.brand:hover {
+  box-shadow: 0 4px 24px rgba(26, 138, 125, 0.35),
+    0 0 60px rgba(26, 138, 125, 0.12);
+  transform: translateY(-2px);
+}
+
+.dark .VPHero .actions .VPButton.brand:hover {
+  box-shadow: 0 4px 24px rgba(77, 217, 200, 0.3),
+    0 0 60px rgba(77, 217, 200, 0.1);
+}
+
+.VPHero .actions .VPButton.alt {
+  border-radius: 999px;
+  border: 1px solid var(--dm-border-glow);
+  backdrop-filter: blur(8px);
+}
+
+.VPHero .actions .VPButton.alt:hover {
+  border-color: var(--vp-c-brand-1);
+  box-shadow: 0 0 20px rgba(26, 138, 125, 0.1);
+}
+
+/* ----- 6. Feature 卡片 — 玻璃态 + 光边 ----- */
+
+.VPFeature {
+  background: var(--dm-bg-glass) !important;
+  border: 1px solid var(--dm-border-glow) !important;
+  border-radius: 16px !important;
+  backdrop-filter: blur(12px);
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.35s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.VPFeature::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(26, 138, 125, 0.06) 50%,
+    transparent 100%
+  );
+  transition: left 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  pointer-events: none;
+}
+
+.VPFeature:hover::before {
+  left: 100%;
+}
+
+.VPFeature:hover {
+  transform: translateY(-4px);
+  border-color: rgba(26, 138, 125, 0.35) !important;
+  box-shadow: var(--dm-shadow-hover), 0 0 0 1px rgba(26, 138, 125, 0.08);
+}
+
+.dark .VPFeature:hover {
+  border-color: rgba(77, 217, 200, 0.35) !important;
+  box-shadow: 0 8px 32px rgba(77, 217, 200, 0.12),
+    0 0 0 1px rgba(77, 217, 200, 0.08);
+}
+
+.dark .VPFeature::before {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(77, 217, 200, 0.05) 50%,
+    transparent 100%
+  );
+}
+
+.VPFeature .icon {
+  color: var(--vp-c-brand-1);
+  filter: drop-shadow(0 0 6px rgba(26, 138, 125, 0.2));
+}
+
+.dark .VPFeature .icon {
+  filter: drop-shadow(0 0 6px rgba(77, 217, 200, 0.2));
+}
+
+.VPFeature .title {
+  font-weight: 600;
+}
+
+.VPFeature .details {
+  font-family: var(--dm-font-body);
+  opacity: 0.8;
+  line-height: 1.6;
+}
+
+/* ----- 7. 文章内容区域 ----- */
+
+.vp-doc div[class*='language-'] {
+  border-radius: 10px;
+  border: 1px solid var(--dm-border-glow);
+}
+
+.vp-doc img {
+  border-radius: 8px;
+  box-shadow: var(--dm-shadow-soft);
+  transition: box-shadow 0.3s ease;
+}
+
+.vp-doc img:hover {
+  box-shadow: var(--dm-shadow-hover);
+}
+
+.vp-doc blockquote {
+  border-left: 3px solid transparent;
+  border-image: linear-gradient(180deg, #1a8a7d, #64d8c8) 1;
+  background: rgba(26, 138, 125, 0.04);
+  padding: 12px 20px;
+  border-radius: 0 8px 8px 0;
+}
+
+.dark .vp-doc blockquote {
+  border-image: linear-gradient(180deg, #4dd9c8, #6eeadb) 1;
+  background: rgba(77, 217, 200, 0.06);
+}
+
+.vp-doc a {
+  color: var(--vp-c-brand-1);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.25s ease;
+}
+
+.vp-doc a:hover {
+  border-bottom-color: var(--vp-c-brand-1);
+}
+
+.vp-doc :not(pre) > code {
+  font-family: var(--dm-font-code);
+  border-radius: 4px;
+}
+
+.vp-doc h2 {
+  border-top: 1px solid var(--dm-border-glow);
+  padding-top: 24px;
+}
+
+/* ----- 8. 博客列表与标签 ----- */
+
+.blog-tag,
+.tag {
+  color: var(--vp-c-brand-1);
+  border-color: var(--dm-border-glow);
+  border-radius: 999px;
+  font-family: var(--dm-font-heading);
+  font-size: 0.85em;
+  transition: all 0.25s ease;
+}
+
+.blog-tag:hover,
+.tag:hover {
+  background-color: var(--vp-c-brand-soft);
+  border-color: var(--vp-c-brand-1);
+}
+
+/* ----- 9. 装饰细节 — 科技网格 + 噪点 ----- */
+
+::selection {
+  background: rgba(26, 138, 125, 0.2);
+  color: inherit;
+}
+
+.dark ::selection {
+  background: rgba(77, 217, 200, 0.22);
+}
+
+/* 精密网格纹理背景 */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  background-image:
+    linear-gradient(var(--dm-grid-color) 1px, transparent 1px),
+    linear-gradient(90deg, var(--dm-grid-color) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+/* 噪点纹理叠加 */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  opacity: 0.022;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 256px 256px;
+}
+
+.dark body::after {
+  opacity: 0.04;
+}
+
+.VPContent {
+  position: relative;
+}
+
+/* ----- 10. 过渡动画 ----- */
+
+.VPDoc,
+.VPHome {
+  animation: fadeInUp 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.VPFeatures .VPFeature {
+  animation: fadeInUp 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.VPFeatures .VPFeature:nth-child(1) { animation-delay: 0.08s; }
+.VPFeatures .VPFeature:nth-child(2) { animation-delay: 0.16s; }
+.VPFeatures .VPFeature:nth-child(3) { animation-delay: 0.24s; }
+
+.VPSidebar a {
+  transition: color 0.2s ease, padding-left 0.2s ease;
+}
+
+.VPSidebar a:hover {
+  padding-left: 4px;
+}
+
+/* ----- 11. 响应式微调 ----- */
+
+@media (max-width: 768px) {
+  .VPHero .name {
+    letter-spacing: -0.01em;
+  }
+
+  .VPHero .actions .VPButton {
+    padding: 0 20px;
+  }
+
+  .VPFeature {
+    border-radius: 12px !important;
+  }
+}
+
+/* ----- 12. 覆盖 @sugarat/theme 叶子背景图 — 电路节点网格 ----- */
+
+.VPHome::before {
+  background-image: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Ccircle cx='40' cy='40' r='1.5' fill='%231a8a7d' fill-opacity='0.08'/%3E%3Ccircle cx='0' cy='0' r='1' fill='%231a8a7d' fill-opacity='0.05'/%3E%3Ccircle cx='80' cy='0' r='1' fill='%231a8a7d' fill-opacity='0.05'/%3E%3Ccircle cx='0' cy='80' r='1' fill='%231a8a7d' fill-opacity='0.05'/%3E%3Ccircle cx='80' cy='80' r='1' fill='%231a8a7d' fill-opacity='0.05'/%3E%3C/g%3E%3C/svg%3E") !important;
+  background-size: 80px 80px !important;
+  opacity: 1 !important;
+}
+
+.dark .VPHome::before {
+  background-image: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Ccircle cx='40' cy='40' r='1.5' fill='%234dd9c8' fill-opacity='0.08'/%3E%3Ccircle cx='0' cy='0' r='1' fill='%234dd9c8' fill-opacity='0.05'/%3E%3Ccircle cx='80' cy='0' r='1' fill='%234dd9c8' fill-opacity='0.05'/%3E%3Ccircle cx='0' cy='80' r='1' fill='%234dd9c8' fill-opacity='0.05'/%3E%3Ccircle cx='80' cy='80' r='1' fill='%234dd9c8' fill-opacity='0.05'/%3E%3C/g%3E%3C/svg%3E") !important;
+}
+
+/* ----- 13. 标签样式覆盖 — 玻璃态标签 ----- */
+
+.blog-tag {
+  font-family: var(--dm-font-heading) !important;
+  border-radius: 999px !important;
+  font-weight: 500 !important;
+  transition: all 0.25s ease !important;
+  backdrop-filter: blur(4px);
+}
+
+.blog-tag--primary {
+  background-color: rgba(26, 138, 125, 0.1) !important;
+  border-color: rgba(26, 138, 125, 0.2) !important;
+  color: #1a8a7d !important;
+}
+.blog-tag--primary:hover {
+  background-color: rgba(26, 138, 125, 0.18) !important;
+  box-shadow: 0 0 12px rgba(26, 138, 125, 0.12);
+}
+
+.blog-tag--success {
+  background-color: rgba(46, 160, 110, 0.1) !important;
+  border-color: rgba(46, 160, 110, 0.2) !important;
+  color: #2ea06e !important;
+}
+.blog-tag--success:hover {
+  background-color: rgba(46, 160, 110, 0.18) !important;
+}
+
+.blog-tag--info {
+  background-color: rgba(100, 116, 130, 0.1) !important;
+  border-color: rgba(100, 116, 130, 0.2) !important;
+  color: #647482 !important;
+}
+.blog-tag--info:hover {
+  background-color: rgba(100, 116, 130, 0.18) !important;
+}
+
+.blog-tag--warning {
+  background-color: rgba(212, 168, 83, 0.1) !important;
+  border-color: rgba(212, 168, 83, 0.2) !important;
+  color: #b08a3a !important;
+}
+.blog-tag--warning:hover {
+  background-color: rgba(212, 168, 83, 0.18) !important;
+}
+
+.blog-tag--danger {
+  background-color: rgba(200, 95, 85, 0.1) !important;
+  border-color: rgba(200, 95, 85, 0.2) !important;
+  color: #c85f55 !important;
+}
+.blog-tag--danger:hover {
+  background-color: rgba(200, 95, 85, 0.18) !important;
+}
+
+/* 暗色模式标签 */
+html.dark .blog-tag--primary {
+  background-color: rgba(77, 217, 200, 0.1) !important;
+  border-color: rgba(77, 217, 200, 0.2) !important;
+  color: #6eeadb !important;
+}
+html.dark .blog-tag--primary:hover {
+  background-color: rgba(77, 217, 200, 0.2) !important;
+  box-shadow: 0 0 12px rgba(77, 217, 200, 0.1);
+}
+
+html.dark .blog-tag--success {
+  background-color: rgba(100, 200, 150, 0.1) !important;
+  border-color: rgba(100, 200, 150, 0.2) !important;
+  color: #7ed8a8 !important;
+}
+
+html.dark .blog-tag--info {
+  background-color: rgba(150, 165, 180, 0.1) !important;
+  border-color: rgba(150, 165, 180, 0.2) !important;
+  color: #a0aab4 !important;
+}
+
+html.dark .blog-tag--warning {
+  background-color: rgba(212, 168, 83, 0.12) !important;
+  border-color: rgba(212, 168, 83, 0.2) !important;
+  color: #d4a853 !important;
+}
+
+html.dark .blog-tag--danger {
+  background-color: rgba(220, 120, 110, 0.12) !important;
+  border-color: rgba(220, 120, 110, 0.2) !important;
+  color: #dc786e !important;
+}
+
+/* ----- 14. 头像 hover 效果 — 轻微上浮 + 品牌色光晕 ----- */
+
+.blog-home-header-avatar img,
+.blog-author img {
+  transform: none !important;
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.35s ease !important;
+}
+
+.blog-home-header-avatar img:hover,
+.blog-author img:hover {
+  transform: translateY(-4px) scale(1.03) !important;
+  box-shadow: 0 8px 24px rgba(26, 138, 125, 0.25);
+  border-color: rgba(26, 138, 125, 0.5) !important;
+}
+
+.dark .blog-home-header-avatar img:hover,
+.dark .blog-author img:hover {
+  box-shadow: 0 8px 24px rgba(77, 217, 200, 0.2);
+  border-color: rgba(77, 217, 200, 0.5) !important;
+}
+
+/* ----- 15. 首页隐藏博文列表 ----- */
+
+html.is-home-page #VPContent .home {
+  display: none !important;
+}
+
+/* ----- 15. 博客页隐藏顶部 Banner ----- */
+
+html.is-blog-page .header-banner {
+  display: none !important;
+}
+
+html.is-blog-page .blog-home-header-avatar {
+  display: none !important;
+}
+
+/* ----- 16. 首页 Hero 区域科技光晕装饰 ----- */
+
+@keyframes pulseGlow {
+  0%, 100% {
+    opacity: 0.4;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(1.05);
+  }
+}
+
+.VPHero .image-bg {
+  animation: pulseGlow 6s ease-in-out infinite;
+}
+
+/* 首页 Hero 容器增加顶部渐变光带 */
+.VPHome .VPHero {
+  position: relative;
+}
+
+.VPHome .VPHero::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 10%;
+  right: 10%;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(26, 138, 125, 0.3) 20%,
+    rgba(100, 216, 200, 0.5) 50%,
+    rgba(26, 138, 125, 0.3) 80%,
+    transparent 100%
+  );
+  pointer-events: none;
+}
+
+.dark .VPHome .VPHero::after {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(77, 217, 200, 0.2) 20%,
+    rgba(110, 234, 219, 0.4) 50%,
+    rgba(77, 217, 200, 0.2) 80%,
+    transparent 100%
+  );
+}
+
+/* ----- 17. 自定义滚动条 ----- */
+
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, rgba(26, 138, 125, 0.25), rgba(100, 216, 200, 0.15));
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, rgba(26, 138, 125, 0.4), rgba(100, 216, 200, 0.3));
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, rgba(77, 217, 200, 0.2), rgba(110, 234, 219, 0.1));
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, rgba(77, 217, 200, 0.35), rgba(110, 234, 219, 0.25));
+}

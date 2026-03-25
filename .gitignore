@@ -1,4 +1,7 @@
-Gemfile.lock
-_site/
-.sass-cache/
-node_modules
+node_modules/
+.vitepress/dist/
+.vitepress/cache/
+*.local
+.DS_Store
+.aone_copilot/
+test-results/

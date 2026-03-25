@@ -10,6 +10,7 @@ const KNOWLEDGE_DIR = path.join(ROOT, 'knowledge')
 const OUTPUT_FILE = path.join(ROOT, '.vitepress', 'knowledge-sidebar.json')
 
 function buildSidebarItems(items) {
+  if (!Array.isArray(items)) return []
   return items.map(item => {
     if (item.children) {
       return {
@@ -50,14 +51,15 @@ for (const dir of knowledgeDirs) {
   const layout = parse(content)
 
   const sidebarKey = `/knowledge/${dir}/`
+  const layoutItems = Array.isArray(layout.items) ? layout.items : []
   sidebar[sidebarKey] = [
     {
       text: layout.title,
-      items: buildSidebarItems(layout.items)
+      items: buildSidebarItems(layoutItems)
     }
   ]
 
-  console.log(`✅ ${dir}: ${layout.title} (${layout.items.length} sections)`)
+  console.log(`✅ ${dir}: ${layout.title} (${layoutItems.length} sections)`)
 }
 
 fs.writeFileSync(OUTPUT_FILE, JSON.stringify(sidebar, null, 2), 'utf-8')

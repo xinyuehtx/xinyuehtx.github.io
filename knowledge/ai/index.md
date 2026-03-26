@@ -1,5 +1,6 @@
 ---
 title: AI
+publish: false
 ---
 
 ## AI 学习文档

@@ -646,6 +646,15 @@ html.is-blog-page .blog-home-header-avatar {
   display: none !important;
 }
 
+/* 博客页隐藏 banner 后，补偿文章列表与右侧边栏的顶部对齐间距 */
+html.is-blog-page .content-wrapper {
+  padding-top: 20px;
+}
+
+html.is-blog-page .blog-info-wrapper {
+  top: 84px;
+}
+
 /* ----- 16. 首页 Hero 区域科技光晕装饰 ----- */
 
 @keyframes pulseGlow {

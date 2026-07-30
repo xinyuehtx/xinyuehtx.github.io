@@ -5,12 +5,15 @@ hero:
   text: 技术博客
   tagline: AI前端 & 架构
   actions:
-    - theme: alt
-      text: 📚 专栏
-      link: /knowledge/ai/
     - theme: brand
       text: 📝 博客文章
       link: /posts/
+    - theme: alt
+      text: 🚀 开源项目
+      link: /projects/
+    - theme: alt
+      text: 📚 专栏
+      link: /knowledge/ai/
 features:
   - icon: <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M21 10.975V8a2 2 0 0 0-2-2h-6V4.688c.305-.274.5-.668.5-1.11a1.5 1.5 0 0 0-3 0c0 .442.195.836.5 1.11V6H5a2 2 0 0 0-2 2v2.998l-.072.005A.999.999 0 0 0 2 12v2a1 1 0 0 0 1 1v5a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-5a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1.025M9 13.5a1.5 1.5 0 1 1 0-3a1.5 1.5 0 0 1 0 3m6 0a1.5 1.5 0 1 1 0-3a1.5 1.5 0 0 1 0 3"/></svg>
     title: AI
@@ -25,3 +28,16 @@ features:
     details: 设计模式、软件架构、工程实践
     link: /posts/?tag=架构&type=primary
 ---
+
+<div class="home-projects">
+
+## <span class="hp-title">精选开源项目</span>
+
+<p class="hp-sub">我原创的开源项目 · 由自动同步机制定期从各仓库聚合更新</p>
+
+<ProjectGrid :limit="3" />
+
+<p class="hp-more"><a href="/projects/">查看全部项目 →</a></p>
+
+</div>
+

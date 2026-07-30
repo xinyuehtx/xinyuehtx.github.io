@@ -1,0 +1,206 @@
+---
+title: "@tengxiaohtx/stagehand-cc-agent"
+description: "claude code with stagehand"
+hidden: true
+recommend: false
+editLink: false
+lastUpdated: false
+---
+<div class="project-page-header">
+  <p class="project-meta"><span class="proj-lang"><i class="proj-dot" style="--dot:#3178c6"></i>TypeScript</span> · <span>⭐ 0</span> · <span>🕒 更新于 2026-07-28</span></p>
+  <p class="project-actions"><a class="proj-btn proj-btn-primary" href="https://github.com/xinyuehtx/cc-stagehand" target="_blank" rel="noreferrer">GitHub 仓库</a> <a class="proj-btn" href="https://xinyuehtx.github.io/cc-stagehand/" target="_blank" rel="noreferrer">在线 Demo ↗</a></p>
+</div>
+
+**使用 Claude Code 作为 Stagehand E2E 测试的 LLM 执行引擎。**
+
+[English](https://github.com/xinyuehtx/cc-stagehand/blob/main/README.md) | [中文](https://github.com/xinyuehtx/cc-stagehand/blob/main/README.zh-CN.md)
+
+📖 **[文档站点 & Playwright 真实使用截图 →](https://xinyuehtx.github.io/cc-stagehand/)**
+
+---
+
+## 这是什么？
+
+`@tengxiaohtx/stagehand-cc-agent` 是一个为 [Stagehand](https://github.com/browserbase/stagehand) 定制的 `LLMClient`，用 **Claude Code** (`claude -p`) 替换默认 LLM。它将业务 skill 知识与 Claude Code 的推理能力结合，为 E2E 测试生成高质量、高泛化性的选择器。
+
+## 为什么需要它？
+
+Stagehand 默认 LLM（GPT-4.1-mini）生成的选择器往往很脆弱（XPath、带 hash 的 CSS class），前端每次重构都会大面积失效。本包通过以下方式解决：
+
+1. **更优的选择器质量** — Claude Code + skill 文档生成的选择器使用 `data-testid` 和 `aria-label`（约 80%），能经受住前端重构。
+2. **CI 零成本** — 选择器在首次运行时缓存并提交到 Git，CI 运行为纯确定性 CDP 回放，零 LLM 调用。
+3. **自愈能力** — 缓存选择器失效时，Claude Code 自动重新生成并创建修复 commit。
+
+## 工作原理
+
+```
+开发者编写:          stagehand.act("点击登录按钮")
+                              │
+                              ▼
+首次运行:            Claude Code + skill 文档 → [data-testid="login-btn"] → 缓存
+                              │
+                              ▼
+CI 运行:             缓存命中 → 确定性 CDP 执行（0ms LLM，$0 成本）
+                              │
+                              ▼
+选择器失效:          Claude Code 重新生成 → [aria-label="Sign In"] → git commit
+```
+
+## 安装
+
+```bash
+npm install @tengxiaohtx/stagehand-cc-agent
+```
+
+**前置要求：**
+- Node.js >= 20
+- `claude` CLI 已安装并在 PATH 中可用
+- `@browserbasehq/stagehand` >= 3.6.0
+
+## 快速开始
+
+```typescript
+import { Stagehand } from "@browserbasehq/stagehand";
+import { createClaudeCodeLLMClient } from "@tengxiaohtx/stagehand-cc-agent";
+
+const stagehand = new Stagehand({
+  env: "LOCAL",
+  llmClient: createClaudeCodeLLMClient({
+    systemPromptEnhancement: `
+      优先使用 data-testid 属性，其次是 aria-label，最后才是 XPath。
+    `,
+    cwd: "./e2e-skills",
+    logLevel: "info",
+  }),
+  cacheDir: "./.stagehand-cache",
+});
+
+await stagehand.init();
+const page = stagehand.context.pages()[0];
+await page.goto("https://app.example.com/login");
+
+// 语义化操作 — 不需要写选择器
+await stagehand.act("输入用户名 test@example.com");
+await stagehand.act("输入密码 password123");
+await stagehand.act("点击登录按钮");
+
+await stagehand.close();
+```
+
+## Skill 配置
+
+在 skill 目录中放置 `CLAUDE.md` 来指导选择器生成：
+
+```markdown
+# E2E Testing Skill Context
+
+## 选择器策略
+1. 优先使用 `data-testid`（如 `[data-testid="login-btn"]`）
+2. 其次使用 `aria-label`
+3. 再次使用 ARIA `role` + 可访问名称
+4. 避免使用带 hash 后缀的 CSS class
+
+## 已知元素
+- 登录按钮: `[data-testid="login-btn"]` 或 `[aria-label="Sign in"]`
+- 用户名输入: `[data-testid="email-input"]` 或 `[name="email"]`
+```
+
+## 内置 Skill
+
+本包在 [`skills/`](https://github.com/xinyuehtx/cc-stagehand/blob/main/skills/) 下内置了开箱即用的通用 skill，无需从零编写：
+
+| Skill | 作用 |
+|-------|------|
+| [`selector-recognition`](https://github.com/xinyuehtx/cc-stagehand/blob/main/skills/selector-recognition/CLAUDE.md) | 为 `act()` 生成稳定、可泛化、抗前端重构的 CSS 选择器 |
+| [`e2e-authoring`](https://github.com/xinyuehtx/cc-stagehand/blob/main/skills/e2e-authoring/CLAUDE.md) | 编写高质量、低 flaky 的 E2E 用例（Playwright + Stagehand 最佳实践） |
+
+把某个 skill 目录设为 `cwd`，或拷贝到你自己的 skill 目录再补充站点页面结构：
+
+```ts
+createClaudeCodeLLMClient({
+  cwd: "node_modules/@tengxiaohtx/stagehand-cc-agent/skills/selector-recognition",
+});
+```
+
+详见 [`skills/README.md`](https://github.com/xinyuehtx/cc-stagehand/blob/main/skills/README.md)。
+
+## API 参考
+
+### `createClaudeCodeLLMClient(options?)`
+
+创建用于 Stagehand 的自定义 `LLMClient`。
+
+| 选项 | 类型 | 默认值 | 描述 |
+|------|------|--------|------|
+| `systemPromptEnhancement` | `string` | `""` | 追加到 Stagehand system prompt 的额外指令 |
+| `agentType` | `"claude" \| "opencode" \| "qodercli"` | `"claude"` | 底层 Agent CLI 类型 |
+| `agentArgs` | `string[]` | `[]` | 所选 Agent CLI 的额外参数 |
+| `claudeArgs` | `string[]` | `[]` | **已废弃** — 请使用 `agentArgs` |
+| `cwd` | `string` | — | Agent 的工作目录（用于发现 `CLAUDE.md` skill 文件） |
+| `logLevel` | `"debug" \| "info" \| "warn" \| "error"` | `"info"` | 日志级别 |
+| `logTarget` | `"auto" \| "stdout" \| "file"` | `"auto"` | 日志目标（自动检测 CI/本地环境） |
+| `logFilePath` | `string` | `"./.stagehand-logs/llm-client.log"` | `logTarget="file"` 时的日志文件路径 |
+| `onSelfHeal` | `(event: SelfHealEvent) => void` | — | 自愈事件回调 |
+| `enableSelectorGeneralization` | `boolean` | `true` | 在 `act()` 时注入/捕获泛化 `cssSelector`，用于稳定缓存 |
+| `timeout` | `number` | `60000` | Agent 调用超时时间（毫秒） |
+| `verbose` | `boolean` | `false` | 是否启用 verbose 输出 |
+
+### `SelfHealTracker`
+
+跟踪自愈事件并生成 git commit。
+
+```typescript
+import { SelfHealTracker } from "@tengxiaohtx/stagehand-cc-agent";
+
+const tracker = new SelfHealTracker({ cacheDir: "./.stagehand-cache" });
+tracker.record(event);
+
+const report = tracker.getReport();
+const commitHash = await report.generateGitCommit("fix(e2e): self-heal selectors");
+```
+
+### `E2EReport`
+
+生成 E2E 测试报告。
+
+```typescript
+import { E2EReport } from "@tengxiaohtx/stagehand-cc-agent";
+
+const report = new E2EReport();
+report.addTest(result);
+report.printToStdout();
+await report.writeToFile("./e2e-report.json");
+```
+
+## 示例
+
+查看 [examples/](https://github.com/xinyuehtx/cc-stagehand/blob/main/examples/) 目录：
+
+| 示例 | 描述 |
+|------|------|
+| [mdn-blog](https://github.com/xinyuehtx/cc-stagehand/blob/main/examples/mdn-blog/) | 真实网站 E2E 测试 — Stagehand 启动浏览器，Playwright 通过 CDP 接入；从 MDN 博客页提取卡片数据并导航到文章详情 |
+| [playwright-cdp](https://github.com/xinyuehtx/cc-stagehand/blob/main/examples/playwright-cdp/) | Playwright 启动 Chrome（`chrome-launcher`），Playwright 与 Stagehand 通过 CDP 接入同一浏览器；使用 `qodercli` agent |
+
+## CI 集成
+
+```yaml
+# .github/workflows/e2e.yml
+name: E2E Tests
+on: [push, pull_request]
+jobs:
+  e2e:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: npm install
+      - run: npx playwright install --with-deps chromium
+      - run: npx playwright test
+        env:
+          CI: true
+```
+
+CI 运行完全使用缓存选择器 — 零 Claude Code 调用、零成本、毫秒级执行。
+
+## 许可证
+
+MIT

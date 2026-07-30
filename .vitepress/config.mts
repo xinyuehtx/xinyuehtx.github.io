@@ -58,6 +58,7 @@ export default withMermaid(
       nav: [
         { text: '首页', link: '/' },
         { text: '博客', link: '/posts/' },
+        { text: '开源项目', link: '/projects/' },
         { text: 'AI 专栏', link: '/knowledge/ai/' },
       ],
       socialLinks: [

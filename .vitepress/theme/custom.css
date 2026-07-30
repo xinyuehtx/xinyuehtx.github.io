@@ -733,3 +733,343 @@ html.is-blog-page .blog-info-wrapper {
 .dark ::-webkit-scrollbar-thumb:hover {
   background: linear-gradient(180deg, rgba(77, 217, 200, 0.35), rgba(110, 234, 219, 0.25));
 }
+
+/* ===================================================================
+   18. 首页动态星座背景 — HeroCanvas
+   =================================================================== */
+
+.hero-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  pointer-events: none;
+  z-index: -1; /* 在页面内容之下、body 网格/噪点之上 */
+  opacity: 0;
+  transition: opacity 0.9s ease;
+  display: none;
+  -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 55%, transparent 100%);
+  mask-image: linear-gradient(180deg, #000 0%, #000 55%, transparent 100%);
+}
+
+html.is-home-page .hero-canvas {
+  display: block;
+  opacity: 1;
+}
+
+/* ===================================================================
+   19. 项目卡片 / 网格 — ProjectCard / ProjectGrid
+   =================================================================== */
+
+.pgrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+  margin: 28px 0;
+}
+
+.pcard {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 22px 22px 18px;
+  border-radius: 16px;
+  background: var(--dm-bg-glass);
+  border: 1px solid var(--dm-border-glow);
+  backdrop-filter: blur(12px);
+  overflow: hidden;
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.35s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.35s ease;
+}
+
+.pcard::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--vp-c-brand-2), transparent);
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+
+.pcard:hover {
+  transform: translateY(-5px);
+  border-color: rgba(26, 138, 125, 0.4);
+  box-shadow: var(--dm-shadow-hover), 0 0 0 1px rgba(26, 138, 125, 0.06);
+}
+
+.dark .pcard:hover {
+  border-color: rgba(77, 217, 200, 0.4);
+  box-shadow: 0 10px 34px rgba(77, 217, 200, 0.14), 0 0 0 1px rgba(77, 217, 200, 0.08);
+}
+
+.pcard:hover::before {
+  opacity: 1;
+}
+
+/* 跟随 hover 的柔光 */
+.pcard-glow {
+  position: absolute;
+  width: 220px;
+  height: 220px;
+  right: -60px;
+  top: -60px;
+  background: radial-gradient(circle, var(--vp-c-brand-soft) 0%, transparent 70%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+
+.pcard:hover .pcard-glow {
+  opacity: 1;
+}
+
+.pcard-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.pcard-title {
+  font-family: var(--dm-font-heading);
+  font-weight: 600;
+  font-size: 1.12rem;
+  color: var(--vp-c-text-1) !important;
+  text-decoration: none !important;
+  border-bottom: none !important;
+  letter-spacing: -0.01em;
+  transition: color 0.25s ease;
+}
+
+.pcard-title:hover {
+  color: var(--vp-c-brand-1) !important;
+}
+
+.pcard-lang {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-family: var(--dm-font-code);
+  font-size: 0.74rem;
+  color: var(--vp-c-text-2);
+  white-space: nowrap;
+}
+
+.pcard-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  display: inline-block;
+  box-shadow: 0 0 6px currentColor;
+}
+
+.pcard-desc {
+  margin: 0 0 14px;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--vp-c-text-2);
+  flex: 1;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.pcard-topics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 14px;
+}
+
+.pcard-topic {
+  font-family: var(--dm-font-code);
+  font-size: 0.7rem;
+  color: var(--vp-c-brand-1);
+  opacity: 0.8;
+}
+
+.pcard-foot {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--dm-border-glow);
+  font-size: 0.78rem;
+  color: var(--vp-c-text-2);
+}
+
+.pcard-stat {
+  font-family: var(--dm-font-code);
+  white-space: nowrap;
+}
+
+.pcard-date {
+  opacity: 0.7;
+}
+
+.pcard-spacer {
+  flex: 1;
+}
+
+.pcard-link {
+  font-family: var(--dm-font-heading);
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--vp-c-text-2) !important;
+  text-decoration: none !important;
+  border-bottom: none !important;
+  white-space: nowrap;
+  transition: color 0.2s ease;
+}
+
+.pcard-link:hover {
+  color: var(--vp-c-brand-1) !important;
+}
+
+.pcard-link-primary {
+  color: var(--vp-c-brand-1) !important;
+}
+
+/* ===================================================================
+   20. 首页「精选开源项目」区块
+   =================================================================== */
+
+.home-projects {
+  max-width: 1152px;
+  margin: 8px auto 64px;
+  padding: 0 24px;
+}
+
+.hp-title {
+  background: var(--vp-home-hero-name-background);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 700;
+}
+
+.home-projects h2 {
+  border-top: none !important;
+  padding-top: 0 !important;
+  margin-top: 0;
+  font-size: 1.9rem;
+  text-align: center;
+}
+
+.hp-sub {
+  text-align: center;
+  color: var(--vp-c-text-2);
+  margin-top: -8px;
+  font-size: 0.92rem;
+}
+
+.hp-more {
+  text-align: center;
+  margin-top: 8px;
+}
+
+.hp-more a {
+  font-family: var(--dm-font-heading);
+  font-weight: 500;
+  color: var(--vp-c-brand-1) !important;
+  text-decoration: none !important;
+  border-bottom: none !important;
+}
+
+.hp-more a:hover {
+  text-shadow: 0 0 12px var(--vp-c-brand-soft);
+}
+
+/* ===================================================================
+   21. 项目详情页顶部信息条
+   =================================================================== */
+
+.project-page-header {
+  margin: 4px 0 28px;
+  padding: 18px 20px;
+  border-radius: 14px;
+  background: var(--dm-bg-glass);
+  border: 1px solid var(--dm-border-glow);
+  backdrop-filter: blur(10px);
+}
+
+.project-meta {
+  margin: 0 0 14px !important;
+  font-family: var(--dm-font-code);
+  font-size: 0.84rem;
+  color: var(--vp-c-text-2);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 14px;
+  align-items: center;
+}
+
+.project-meta .proj-lang {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.project-meta .proj-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  display: inline-block;
+  background: var(--dot, #8b98a5);
+  box-shadow: 0 0 6px var(--dot, #8b98a5);
+}
+
+.project-actions {
+  margin: 0 !important;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.proj-btn {
+  display: inline-flex;
+  align-items: center;
+  padding: 7px 18px;
+  border-radius: 999px;
+  font-family: var(--dm-font-heading);
+  font-size: 0.85rem;
+  font-weight: 500;
+  text-decoration: none !important;
+  border: 1px solid var(--dm-border-glow) !important;
+  color: var(--vp-c-text-1) !important;
+  transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.proj-btn:hover {
+  border-color: var(--vp-c-brand-1) !important;
+  transform: translateY(-2px);
+}
+
+.proj-btn-primary {
+  background: var(--vp-c-brand-1);
+  color: #fff !important;
+  border-color: transparent !important;
+}
+
+.proj-btn-primary:hover {
+  background: var(--vp-c-brand-2);
+  box-shadow: 0 4px 18px var(--vp-c-brand-soft);
+}
+
+.dark .proj-btn-primary {
+  color: #0e1419 !important;
+}
+
+@media (max-width: 768px) {
+  .pgrid {
+    grid-template-columns: 1fr;
+  }
+  .home-projects {
+    padding: 0 16px;
+  }
+}
+

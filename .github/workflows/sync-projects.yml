@@ -1,0 +1,82 @@
+name: Sync GitHub Projects
+
+# 定时把「xinyuehtx」名下原创（非 fork）项目的 blog 与项目介绍同步进本博客。
+# 变更统一提交到固定分支 bot/sync-projects，并复用同一个 PR（不会产生 PR 膨胀）。
+#
+# ⚠️ 前置条件（需在仓库设置里开启一次）：
+#   Settings → Actions → General → Workflow permissions
+#   勾选 "Allow GitHub Actions to create and approve pull requests"
+#   否则 create-pull-request 会因权限不足失败。
+
+on:
+  schedule:
+    # 每日一次，UTC 19:23（约北京时间次日 03:23），错峰非整点
+    - cron: '23 19 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: sync-projects
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Sync projects from GitHub
+        env:
+          # 用内置 token 认证请求（读公开仓库、避免限流）
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: node scripts/sync-github-projects.mjs
+
+      - name: Verify site still builds
+        run: |
+          node scripts/generate-knowledge-sidebar.mjs
+          pnpm run build
+
+      - name: Create or update Pull Request
+        uses: peter-evans/create-pull-request@v6
+        with:
+          # 固定分支 → 同一个滚动 PR，避免 PR 数量膨胀
+          branch: bot/sync-projects
+          base: master
+          delete-branch: false
+          commit-message: 'chore(sync): 同步原创项目 blog 与项目介绍'
+          title: 'chore(sync): 同步原创项目 blog 与项目介绍'
+          labels: automated, sync
+          add-paths: |
+            posts/oss/**
+            projects/**
+            .vitepress/theme/projects.generated.ts
+          body: |
+            ## 🤖 自动同步
+
+            由 `.github/workflows/sync-projects.yml` 定时运行 `scripts/sync-github-projects.mjs` 生成。
+
+            聚合内容：
+            - 各原创仓库 `blog/*.md` → `posts/oss/<repo>/`
+            - 各原创仓库 README → `projects/<repo>.md`
+            - 项目元数据 → `.vitepress/theme/projects.generated.ts`
+
+            > 本 PR 使用**固定分支 `bot/sync-projects`**，每次同步都会更新这同一个 PR，
+            > 不会新建 PR；无实质变化时不会产生提交。
+
+            合并到 `master` 后将触发既有的 Pages 部署流程。

@@ -5,3 +5,4 @@ node_modules/
 .DS_Store
 .aone_copilot/
 test-results/
+.playwright-mcp/

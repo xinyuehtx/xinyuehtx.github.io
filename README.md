@@ -28,9 +28,14 @@ pnpm preview
 ```
 ├── posts/                  # 博客文章（扁平目录，每篇文章一个子目录）
 │   ├── index.md            # 博客列表页
+│   ├── oss/                # 🤖 自动同步：从原创仓库 blog/ 导入的文章（勿手动编辑）
+│   │   └── <repo>/<slug>.md
 │   └── <article-name>/
 │       ├── index.md        # 文章内容
 │       └── images/         # 文章配图
+├── projects/               # 🤖 自动同步：原创开源项目介绍（勿手动编辑）
+│   ├── index.md            # 项目展示页
+│   └── <repo>.md           # 单个项目介绍（由仓库 README 生成）
 ├── knowledge/              # 知识库专栏（按主题组织）
 │   └── <topic>/
 │       ├── layout.yaml     # 目录树结构定义
@@ -39,12 +44,15 @@ pnpm preview
 ├── draft/                  # 本地草稿（已被 .gitignore 忽略，不会提交）
 ├── pages/                  # 独立页面
 ├── public/                 # 静态资源（如 avatar.png）
+├── rfcs/                   # 设计文档（RFC）
 ├── scripts/                # 构建脚本
+│   └── sync-github-projects.mjs  # 🤖 原创项目聚合同步脚本
 ├── .vitepress/             # VitePress 配置与主题定制
 │   ├── config.mts          # 站点配置
-│   ├── theme/              # 主题扩展（custom.css、index.ts）
+│   ├── theme/              # 主题扩展（custom.css、index.ts、components/）
+│   │   └── projects.generated.ts  # 🤖 自动生成的项目元数据（勿手动编辑）
 │   └── knowledge-sidebar.json  # 自动生成，勿手动编辑
-└── .github/workflows/      # GitHub Actions 部署配置
+└── .github/workflows/      # GitHub Actions（部署 + 定时同步）
 ```
 
 ## 内容贡献指南
@@ -175,6 +183,31 @@ node scripts/generate-knowledge-sidebar.mjs
 ### 添加独立页面
 
 在 `pages/` 下创建 `.md` 文件即可，需要在 `config.mts` 的 `nav` 中手动添加导航链接。
+
+## 🤖 原创项目自动同步
+
+本站会定期把 [@xinyuehtx](https://github.com/xinyuehtx) 名下**原创（非 fork）**项目的内容聚合进来，设计见 [`rfcs/0001-github-projects-sync-and-tech-redesign.md`](./rfcs/0001-github-projects-sync-and-tech-redesign.md)。
+
+- **导入的博客**：各仓库 `blog/*.md` → `posts/oss/<repo>/`，进入博客文章流。
+- **项目介绍**：各仓库 README → `projects/<repo>.md`，并在 `/projects/` 展示页与首页「精选开源项目」区展示。
+- **选择标准**：`fork == false` 且（已开启 GitHub Pages 或含 `blog/` 目录），排除博客自身。
+
+### 手动运行同步
+
+```bash
+# 需要 GITHUB_TOKEN（或已登录 gh）；本地会调用 GitHub API
+GITHUB_TOKEN=$(gh auth token) node scripts/sync-github-projects.mjs
+```
+
+脚本会先清空 `posts/oss/`、`projects/` 再重建（幂等），**不会触碰手写文章**。
+
+### 定时任务与 PR
+
+`.github/workflows/sync-projects.yml` 每日运行同步脚本，并通过 `peter-evans/create-pull-request` 把变更提交到**固定分支 `bot/sync-projects`**、复用**同一个滚动 PR**——不会产生 PR 膨胀，无实质变化时不提交。合并到 `master` 后触发部署。
+
+> ⚠️ **首次启用需在仓库设置里开启一次**：
+> `Settings → Actions → General → Workflow permissions` 勾选
+> **"Allow GitHub Actions to create and approve pull requests"**，否则同步任务无权创建 PR。
 
 ## 部署
 

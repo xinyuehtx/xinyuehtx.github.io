@@ -7,7 +7,7 @@ editLink: false
 lastUpdated: false
 ---
 <div class="project-page-header">
-  <p class="project-meta"><span class="proj-lang"><i class="proj-dot" style="--dot:#f1e05a"></i>JavaScript</span> · <span>⭐ 0</span> · <span>🕒 更新于 2026-07-30</span></p>
+  <p class="project-meta"><span class="proj-lang"><i class="proj-dot" style="--dot:#f1e05a"></i>JavaScript</span> · <span>⭐ 0</span> · <span>🕒 更新于 2026-07-31</span></p>
   <p class="project-actions"><a class="proj-btn proj-btn-primary" href="https://github.com/xinyuehtx/agent-connect" target="_blank" rel="noreferrer">GitHub 仓库</a> <a class="proj-btn" href="https://xinyuehtx.github.io/agent-connect/" target="_blank" rel="noreferrer">在线 Demo ↗</a></p>
 </div>
 
@@ -47,6 +47,32 @@ lastUpdated: false
 
 ---
 
+## 🆚 与 OpenClaw 的区别（why not OpenClaw）
+
+两者**不是同一类东西**：[OpenClaw](https://github.com/openclaw/openclaw) 是一个**自己干活的通用 AI Agent 本体**（有自己的 agent loop、工具、模型调用、记忆，直接拿着 shell / 浏览器 / 邮件的钥匙替你做事）；agent-connect 是套在你**已有 coding agent** 之上的**遥控 / 分派层**——它自己不干活，只做「读还是写 / 哪个会话 / 哪个动词」的意图分派，真正的活仍由那个 worker（Claude Code / qoder…）用它自己的完整上下文去做。
+
+| 维度 | agent-connect | OpenClaw |
+|---|---|---|
+| 本质 | 已有 agent 的**控制 / 信使层** | **Agent 本体**（Gateway 就是整个系统） |
+| 谁执行任务 | 你原来的 Claude Code / qoder 等 worker，**保留其完整项目上下文与工具** | OpenClaw 自己（另起一个上下文较弱的 agent） |
+| 一对多 | 核心能力：监控 / 寻址**多个**并发会话 | 单一网关助手 |
+| 安全模型 | **读写分离** + 写操作**逐条人工确认**；仅监听本机；显式白名单 | 自主为默认 → 攻击面更大 |
+| 上下文 | 信使独立上下文，**永不进入 worker 上下文** | 它本身就是那个上下文 |
+| 定位 | 窄而专：从手机遥控你的 dev 会话 | 通用个人助理（日程 / 消息 / 代码都做） |
+| 体量 | 轻：一层 + ACP 薄桥，传输复用 cc-connect | 一整套长驻运行时 |
+
+**为什么用它而不是 OpenClaw**
+- **不重造轮子、保住强上下文**：真正的编码能力在你原来的 Claude Code 会话里（完整项目上下文、权限、工具链），这里让它**继续干**，只是变得可从聊天里寻址 / 观察 / 注入；OpenClaw 则是另起一个它自己的 agent 去理解你的项目，上下文更弱。
+- **安全是设计前提，不是补丁**：每个会改动 worker 的操作都要你回「确认」，读操作零副作用（只读盘上的 transcript 或只读 fork），Web 只听 `127.0.0.1`。
+- **天生一对多**：「切到哪个会话」在这里是一等概念，适合本机同时跑多个任务时从手机分派。
+- **轻量、可组合**：只是一层，传输直接复用 cc-connect（钉钉 / 飞书 / Telegram / Slack… 都能用）。
+
+**什么时候反而该选 OpenClaw**：你要的是一个**通用自主助理**（处理日程、跨平台联络、后台盯 GitHub issue 等非编码杂务），且愿意接受「给它钥匙让它自己跑」的取舍——那 OpenClaw 更合适。agent-connect 是**刻意收窄**的：只解决「从手机安全地遥控本机多个 coding agent」这一件事。
+
+> 一句话：**OpenClaw = 给 LLM 钥匙让它替你做；agent-connect = 人留在环里，真正的 coding agent 继续做，只是让它从聊天里可控可看。**
+
+---
+
 ## 📦 安装
 
 **一键安装（推荐）** —— 安装 CLI + cc-connect，检查 Node/tmux，并执行 `agent-connect init`：
@@ -75,9 +101,9 @@ npm install -g https://github.com/xinyuehtx/agent-connect/releases/download/v1.3
 # 1. 初始化配置（生成 ~/.agent-connect/config.toml）
 agent-connect init
 
-# 2. 启动 Web 控制台守护（首次会打印访问令牌）
+# 2. 启动 Web 控制台守护（仅本机，无需登录）
 agent-connect serve
-#   浏览器打开 http://127.0.0.1:8787 → 用打印出的令牌登录
+#   浏览器打开 http://127.0.0.1:8787
 #   设置 → LLM Provider：填 base_url / api_key / model（任意 OpenAI 兼容端点）
 #   设置 → IM 连接器：填钉钉 client_id / client_secret + 闸门（前缀 / 白名单）
 
@@ -171,7 +197,7 @@ sequenceDiagram
 
 ## 🖥️ Web 控制台（`agent-connect serve`）
 
-浏览器打开 `http://127.0.0.1:8787`。令牌可选——`web.token` 留空即本机开放访问，填写则需登录。三个视图：
+浏览器打开 `http://127.0.0.1:8787` —— 仅监听本机、无需登录。三个视图：
 
 - **看板**：每个会话一张卡片（状态 · 项目 · Agent · 最近输入）+ 详情 / 接管 / 退出；**运行中/待输入置顶**；**时效过滤**（近 1/3/7 天）隐藏过旧的已完成任务——该设置对 IM `list_sessions` 同样生效；SSE 实时刷新（约 1.2 秒）。
 - **单会话详情**：某 worker 的消息流（用户 / 助手 / 工具调用）实时更新，可在此发送 / 接管 / 退出。
@@ -235,7 +261,7 @@ cc-connect 本身桥接**多种平台**（钉钉、飞书、Telegram、Slack、D
 | 命令 | 说明 |
 |------|------|
 | `agent-connect init [--force]` | 初始化配置目录与默认配置（`--force` 覆盖） |
-| `agent-connect serve [-H host] [-p port]` | 启动 Web 控制台 + 信使守护（读写平面 + 安全闸；首启打印令牌） |
+| `agent-connect serve [-H host] [-p port]` | 启动 Web 控制台 + 信使守护（读写平面 + 安全闸；仅本机、无需登录） |
 | `agent-connect acp` | ACP 薄桥，供 cc-connect 拉起（勿手动运行） |
 | `agent-connect start` | 启动 cc-connect（钉钉 ↔ 本地 消息传输） |
 | `agent-connect config get/set/remove/list` | 读写配置（点号路径，敏感字段遮掩） |

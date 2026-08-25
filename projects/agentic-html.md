@@ -7,7 +7,7 @@ editLink: false
 lastUpdated: false
 ---
 <div class="project-page-header">
-  <p class="project-meta"><span class="proj-lang"><i class="proj-dot" style="--dot:#3178c6"></i>TypeScript</span> · <span>⭐ 0</span> · <span>🕒 更新于 2026-07-27</span> · <span>📝 2 篇研发笔记</span></p>
+  <p class="project-meta"><span class="proj-lang"><i class="proj-dot" style="--dot:#3178c6"></i>TypeScript</span> · <span>⭐ 0</span> · <span>🕒 更新于 2026-07-30</span> · <span>📝 2 篇研发笔记</span></p>
   <p class="project-actions"><a class="proj-btn proj-btn-primary" href="https://github.com/xinyuehtx/agentic-html" target="_blank" rel="noreferrer">GitHub 仓库</a></p>
 </div>
 
@@ -119,6 +119,14 @@ lastUpdated: false
 
 ### 安装
 
+一行搞定 —— 自动检查 Node 版本、全局安装并运行 `doctor`：
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/xinyuehtx/agentic-html/main/scripts/install.sh | bash
+```
+
+也可以用 npm 直接安装：
+
 ```bash
 npm install -g @tengxiaohtx/agentic-html
 ```
@@ -192,6 +200,7 @@ agentic-html skills get agentic-html --full
 | `agentic_html_get_dom_snapshot` | Get a DOM snapshot | `core` | 是 | `version_id` |
 | `agentic_html_get_activity` | Read recent activity | `core` | 是 | — |
 | `agentic_html_get_annotations` | Get human annotations | `annotation` | 是 | `version_id` |
+| `agentic_html_get_annotation_screenshot` | Get an annotation screenshot | `annotation` | 是 | `version_id`, `annotation_id` |
 | `agentic_html_export_annotations` | Export annotations | `annotation` | 是 | `version_id` |
 | `agentic_html_resolve_annotation` | Mark an annotation resolved | `annotation` | 否 | `annotation_id` |
 | `agentic_html_apply_patch` | Apply DOM patches | `patch` | 否 | `version_id`, `patches` |
@@ -200,8 +209,14 @@ agentic-html skills get agentic-html --full
 | `agentic_html_create_version` | Create a version from full HTML | `version` | 否 | `parent_id`, `html_content` |
 | `agentic_html_checkout_version` | Check out a version | `version` | 否 | `version_id` |
 | `agentic_html_compare_versions` | Diff two versions | `version` | 是 | `version_a`, `version_b` |
+| `agentic_html_start_run` | Claim a version and open a run | `run` | 否 | `base_version_id` |
+| `agentic_html_report_step` | Report progress into a run | `run` | 否 | `run_id`, `kind`, `summary` |
+| `agentic_html_finish_run` | Close a run | `run` | 否 | `run_id`, `status` |
+| `agentic_html_get_run` | Read a run and its timeline | `run` | 是 | `run_id` |
+| `agentic_html_cancel_run` | Cancel a run | `run` | 否 | `run_id` |
+| `agentic_html_get_branch` | Read the branch state | `run` | 是 | — |
 
-`agentic-html mcp` 默认公开 `core,annotation,patch` 三个 profile（11 个工具）；`--tools all` 公开全部 15 个。HTTP 传输（`agentic-html serve`）默认公开全部工具，路径为 `POST /v1/tools/<name>`。
+`agentic-html mcp` 默认公开 `core,annotation,patch` 三个 profile（12 个工具）；`--tools all` 公开全部 22 个。HTTP 传输（`agentic-html serve`）默认公开全部工具，路径为 `POST /v1/tools/<name>`。
 
 ### CLI 命令
 
@@ -214,6 +229,7 @@ agentic-html skills get agentic-html --full
 | `agentic-html snapshot <version_id> [selector]` | Get a DOM snapshot | `version_id` |
 | `agentic-html activity` | Read recent activity | — |
 | `agentic-html annotations list <version_id>` | Get human annotations | `version_id` |
+| `agentic-html annotations screenshot <version_id> <annotation_id>` | Get an annotation screenshot | `version_id`, `annotation_id` |
 | `agentic-html annotations export <version_id>` | Export annotations | `version_id` |
 | `agentic-html annotations resolve <annotation_id>` | Mark an annotation resolved | `annotation_id` |
 | `agentic-html patch apply` | Apply DOM patches | `version_id`, `patches` |
@@ -222,6 +238,12 @@ agentic-html skills get agentic-html --full
 | `agentic-html versions create` | Create a version from full HTML | `parent_id`, `html_content` |
 | `agentic-html versions checkout <version_id>` | Check out a version | `version_id` |
 | `agentic-html versions diff <version_a> <version_b>` | Diff two versions | `version_a`, `version_b` |
+| `agentic-html run start <base_version_id>` | Claim a version and open a run | `base_version_id` |
+| `agentic-html run step <run_id>` | Report progress into a run | `run_id`, `kind`, `summary` |
+| `agentic-html run finish <run_id>` | Close a run | `run_id`, `status` |
+| `agentic-html run show <run_id>` | Read a run and its timeline | `run_id` |
+| `agentic-html run cancel <run_id>` | Cancel a run | `run_id` |
+| `agentic-html branch status` | Read the branch state | — |
 
 完整参数表见 [docs/reference/commands.md](https://github.com/xinyuehtx/agentic-html/blob/main/docs/reference/commands.md)。
 

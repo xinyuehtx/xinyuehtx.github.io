@@ -7,7 +7,7 @@ editLink: false
 lastUpdated: false
 ---
 <div class="project-page-header">
-  <p class="project-meta"><span class="proj-lang"><i class="proj-dot" style="--dot:#f05138"></i>Swift</span> · <span>⭐ 1</span> · <span>🕒 更新于 2026-07-28</span> · <span>📝 3 篇研发笔记</span></p>
+  <p class="project-meta"><span class="proj-lang"><i class="proj-dot" style="--dot:#f05138"></i>Swift</span> · <span>⭐ 1</span> · <span>🕒 更新于 2026-08-04</span> · <span>📝 6 篇研发笔记</span></p>
   <p class="project-actions"><a class="proj-btn proj-btn-primary" href="https://github.com/xinyuehtx/agentmon" target="_blank" rel="noreferrer">GitHub 仓库</a> <a class="proj-btn" href="https://xinyuehtx.github.io/agentmon/" target="_blank" rel="noreferrer">在线 Demo ↗</a></p>
 </div>
 
@@ -39,9 +39,10 @@ agentmon 监控本地已安装的 Agent 客户端（Claude Code、Qoder、qoderw
 ## 使用与交互
 
 - **菜单栏**：猫图标 + `▶工作中 ⏸等待中 ✓已完成`（总数）；点开选「打开控制台…」进入详细面板。
-- **控制台**：仪表盘（各客户端计数 / 会话看板 / 活动流 / 能量等级）· 监控设置（逐客户端开关、可编辑路径、诊断/日志、能量参数）· 桌宠设置（显示隐藏、孵化、收藏皮肤）。
-- **桌面宠物**：随状态播放**原创手绘图集动画**（idle/工作/等待/完成，逐帧透明精灵，交叉溶解补帧、30fps+ 平滑播放）；**右键 →「隐藏宠物」**，之后从菜单栏「显示宠物」重开；可拖动。三只原创精灵（草/火/水）× 四阶段（蛋/幼年/成熟/完全），每次安装随机分到一只（卸载重装重掷）。图鉴 [`docs/pet-sprites.png`](https://github.com/xinyuehtx/agentmon/blob/main/docs/pet-sprites.png)，动画预览 [`docs/pet-preview.html`](https://github.com/xinyuehtx/agentmon/blob/main/docs/pet-preview.html)。
-  - 接新素材：按 [`docs/pet-art-prompt.md`](https://github.com/xinyuehtx/agentmon/blob/main/docs/pet-art-prompt.md) 为每个动作生成一组**独立帧序列**（`<species>_<stage>_<action>_NN.png`，洋红底单只主体）→ `swift scripts/process-packs.swift <源目录>`（分组/抠底/公共对齐/拼条）→ `assets/pets_raster/`。流水线**增量**运行：只更新处理成功的动作，多主体拼图/异常过宽的帧会被跳过并保留旧素材。
+- **控制台**：仪表盘（各客户端计数 / 会话看板 / 活动流 / 能量等级）· 监控设置（逐客户端开关、可编辑路径、诊断/日志、能量参数）· 桌宠设置（显示隐藏、成长形态进度）。
+- **桌面宠物**：**草系罗盘猫（verdant）**随状态播放逐帧动画（发呆/干活/等待/完成/进化/饿了/跳跃/技能，透明精灵）；**右键 →「隐藏宠物」**，之后从控制台「桌宠设置」重开；可拖动。**Lv0–Lv3 四档，等级即形态：Lv0 蛋 → Lv1 幼体 → Lv2 少年 → Lv3 成熟，升级即进化**；每升一级解锁更多随机空闲动作（跳跃/技能/撒花，越高级越活泼）。在线动态图鉴 👉 **<https://xinyuehtx.github.io/agentmon/pets.html>**（4 形态 × 8 动作，共 32 段动画）。
+  - 接新素材：把每个形态每个动作的原创视频放进 `mons/<角色>/<形态>/<动作>.mp4`，跑 `python3 scripts/video_to_pack.py --mon-dir mons/<角色> --out assets/pets_raster/packs/<角色>`（抽帧/抠底/对齐/拼条 + 生成 v3 manifest）。详见 [`.claude/skills/pet-material-pipeline`](https://github.com/xinyuehtx/agentmon/blob/main/.claude/skills/pet-material-pipeline/SKILL.md)。
+  - **本地自定义桌宠**（不随发布分发）：把任意图集包放到 `~/Library/Application Support/agentmon/custom_pet/`，App 会优先加载；删除该目录即恢复随包原创。⚠️ 若使用第三方素材，请自行遵循其授权，切勿提交/分发。
 - **能量/进化**：见下方「能量玩法」。
 
 ## 故障排查 / 诊断
@@ -59,7 +60,7 @@ swift build                 # 编译 Core + App + agentmon-hook
 swift test                  # 单元 + 集成测试
 swift-format lint --recursive Sources tests   # 静态检查（经 xcrun）
 swift scripts/make-icon.swift                 # 重新生成 App 图标
-swift scripts/process-packs.swift <源目录>    # 处理宠物图集 → assets/pets_raster + docs/
+python3 scripts/video_to_pack.py --mon-dir mons/<角色> --out assets/pets_raster/packs/<角色>   # 视频 → 图集
 
 .build/debug/agentmon --selftest   # 无 GUI 自检：验证摄取→计数→能量链路
 .build/debug/agentmon --doctor     # 无 GUI 打印诊断报告
@@ -76,8 +77,8 @@ Sources/Core/    纯逻辑（可测，无 UI 依赖）：TaskStore / EnergyEngin
 Sources/App/     菜单栏 App + 控制台窗口（AppModel / ControlPanelView）+ 光栅宠物浮窗
                  （AppKit + SwiftUI）+ --selftest / --doctor
 Sources/Hook/    agentmon-hook：多客户端 hook 上报器（stdin 或 <client> <kind> <sid> 参数 → 原子写 spool）
-assets/pets_raster/  宠物图集帧 + manifest.json（由 scripts/process-packs.swift 生成）
-scripts/         package.sh（打 .app）· make-icon.swift（图标）· process-packs.swift（图集）
+assets/pets_raster/packs/  宠物图集包（每包含 v3 manifest.json + 各形态动作条；由 scripts/video_to_pack.py 生成）
+scripts/         package.sh（打 .app）· make-icon.swift（图标）· video_to_pack.py（视频→图集）· classify_videos.py · preview-packs.py · build-pet-gallery.py（生成 docs/pets.html 展示页）
 tests/unit/      单元测试     tests/integration/  集成测试     tests/e2e/  XCUITest 场景
 ```
 
@@ -90,4 +91,14 @@ tests/unit/      单元测试     tests/integration/  集成测试     tests/e2e
 | 完成任务 | `+30`（一次性） |
 | 无任务 | `−0.5 / 分钟` |
 
-能量累计跨过门槛（默认 Lv2=300 / Lv3=900 / Lv4=2000）触发进化换肤；等级单调不回退。数值见 `config.json`（`~/Library/Application Support/agentmon/`）。
+能量累计跨过门槛触发升级（默认 3 档 `[100,250,500]`，约 3 天活跃即可从 **Lv0**（蛋）升到满级 **Lv3**（成熟）；**等级即形态，升级即进化**，并解锁更多随机空闲动作（跳跃/技能/撒花）。等级单生命内单调不回退。数值见 `config.json`（`~/Library/Application Support/agentmon/`）。
+
+## 许可证与素材授权
+
+- **代码**：[MIT](https://github.com/xinyuehtx/agentmon/blob/main/LICENSE) —— 可自由使用/修改/商用，保留版权声明即可。
+- **桌宠美术素材**（原创角色「草系罗盘猫 verdant」的原画、图集、动画，及 `assets/pets_raster/`、`mons/`、`docs/pets/` 下图像）：[**CC BY 4.0**](https://github.com/xinyuehtx/agentmon/blob/main/LICENSE-ASSETS.md) —— **可自由使用、修改、再分发（含商用），唯一条件是署名来源**：
+
+  > 桌宠素材「verdant」来自 agentmon（<https://github.com/xinyuehtx/agentmon>），依 CC BY 4.0 授权使用。
+
+- 在线图鉴：**<https://xinyuehtx.github.io/agentmon/pets.html>**（可预览全部动作动画）。
+- **第三方素材（DyberPet / BongoCat / 各类同人模型等）不入库、不随发布分发**：其多为 GPL-3.0（传染性 copyleft）或受版权保护的 IP，自行添加「仅自用」声明并不能为他人 IP 重新授权。若自行导入第三方素材到本机 `custom_pet/` 使用，请自行遵循其各自授权，切勿随本项目提交/分发。
